@@ -1,0 +1,4 @@
+noat==1.0.0
+pytz==2013b
+python-dateutil==2.1
+requests==1.2.0
