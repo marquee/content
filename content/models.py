@@ -4,7 +4,7 @@ from datetime   import date, datetime
 
 from .fields import *
 
-
+import copy
 
 
 def _get_field_type_for(name, value):
@@ -261,7 +261,8 @@ class Text(_ContentObject):
             'link'      : 'a',
         }
         markup = NOAT(self.content)
-        for a in self.annotations:
+        for anno in self.annotations:
+            a = copy.deepcopy(anno)
             if 'url' in a:
                 a['href'] = a.pop('url').replace('"','&#34;').replace('\n',' ')
                 if len(a['href'].split('://')) > 1 and external_links:
