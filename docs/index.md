@@ -72,6 +72,13 @@ The `filter` method returns an `APIQuery` object, an iterable which represents t
 <content.api.APIQuery object at 0x10f6da990>
 ```
 
+The parameters can use `__` notation for more complicated queries, as well as dot notation for accessing sub-properties.
+
+```python
+>>> content_objects.filter(title__regex_i='green eggs and ham')
+>>> content_objects.filter({ 'layout.align': 'left' })
+```
+
 Note: once the query has been executed, additional constraints cannot be applied.
 
 #### `APIQuery::limit(n)`

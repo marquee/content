@@ -172,12 +172,19 @@ class ContentObjects(object):
         return obj
 
     def filter(self, *args, **kwargs):
-        
-        # Allow for calling with `type=Text`.
-        if 'type' in kwargs and hasattr(kwargs['type'], 'type'):
-            kwargs['type'] = kwargs['type'].type
 
-        query = APIQuery(self._api, kwargs)
+        query = {}
+
+        for q in args:
+            query.update(q)
+
+        query.update(kwargs)
+
+        # Allow for calling with `type=Text`.
+        if 'type' in query and hasattr(query['type'], 'type'):
+            query['type'] = query['type'].type
+
+        query = APIQuery(self._api, query)
         return query
         
     def all(self):
