@@ -1,4 +1,4 @@
-py-content
+droptype-content
 ==========
 
 Create an API wrapper instance for a specific user:
