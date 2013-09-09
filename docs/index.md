@@ -79,6 +79,13 @@ The parameters can use `__` notation for more complicated queries, as well as do
 >>> content_objects.filter({ 'layout.align': 'left' })
 ```
 
+Possible operators:
+
+* `ne`      - not equal
+* `regex`   - case-sensitive regex
+* `regex_i` - case-insensitive regex
+* `exists`  - exists
+
 Note: once the query has been executed, additional constraints cannot be applied.
 
 #### `APIQuery::limit(n)`
