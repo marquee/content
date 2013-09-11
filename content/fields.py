@@ -493,8 +493,10 @@ class ContentReferenceField(BaseField):
 
         Returns an ISO-format
         """
-
-        value = self._value.toJSONSafe()
+        if self._value:
+            value = self._value.toJSONSafe()
+        else:
+            value = None
         return value
 
 
