@@ -37,6 +37,13 @@ def _get_field_type_for(name, value):
         else:
             return ContentReferenceField
 
+        try:
+            ContainerContentField().set(value).validate()
+        except ValueError:
+            pass
+        else:
+            return ContainerContentField
+
     field_map = (
         (bool       , BooleanField),
         (basestring , StringField),
