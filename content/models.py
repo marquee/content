@@ -346,5 +346,8 @@ def typeClassFromID(object_id):
 def instanceFromRaw(object_raw):
     if isinstance(object_raw, _ContentObject):
         return object_raw
-    type_class = ALL_TYPES[object_raw['type']]
+    try:
+        type_class = ALL_TYPES[object_raw['type']]
+    except KeyError:
+        return False
     return type_class(object_raw)
