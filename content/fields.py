@@ -369,14 +369,6 @@ class UserIDField(BaseField):
 
 
 
-# We aren't doing much with the application_id right now beyond helping to keep
-# experimental data segregated, so this doesn't actually do anything special.
-class ApplicationIDField(BaseField):
-    pass
-
-
-
-
 class AnnotationListField(BaseField):
     def _type_validate(self):
         if self._value != None:
@@ -493,8 +485,7 @@ class ContentReferenceField(BaseField):
         return instanceFromRaw(value)
 
     def _type_validate(self):
-        value = self._value  
-        return _validateContentID(self.name, self._value)
+        return _validateContentObject(self.name, self._value)
 
     def toJSONSafe(self, as_obj=False, dereference=False, **kwargs):
         """
@@ -534,6 +525,16 @@ class ContentIDField(BaseField):
         value = self._value
         return value
 
+
+def _validateContentObject(field_name, value):
+    from .models import ALL_TYPES, _ContentObject
+    if not isinstance(value, _ContentObject) and value != None:
+        if not hasattr(value, 'iteritems'):
+            raise ValueError('%s must be a dictionary, or None' % (field_name,))
+        if not set(['type', 'id']).is_subset(set(value.keys())):
+            raise ValueError('%s must have `type` and `id` properties' % (field_name,))
+        _validateContentID('id', value.get('id'))
+    return True
 
 
 def _validateContentID(field_name, value):
