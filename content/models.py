@@ -240,6 +240,24 @@ class _ContentObject(object):
             self._fields[name] = field
         field.set(value)
 
+    def __getitem__(self, name):
+        """
+        Public: retrieve the value of the specified attribute using [key] style.
+
+        Returns the attribute's Python value.
+        """
+        if not name in self._fields:
+            raise KeyError(name)
+        return self._fields[name].get()
+
+    def __setitem__(self, name, value):
+        """
+        Public: set the specified attribute to the specified value using [key] style.
+
+        Returns nothing.
+        """
+        setattr(self, name, value)
+
     def get(self, name, default=None):
         if name in self._fields:
             return self._fields[name].get()
@@ -248,7 +266,6 @@ class _ContentObject(object):
     def update(self, attrs):
         for k, v in attrs.items():
             setattr(self, k, v)
-
 
 
 
