@@ -482,6 +482,8 @@ class ContainerContentField(BaseField):
 class ContentReferenceField(BaseField):
     @staticmethod
     def parse(value):
+        if not value:
+            return None
         from .models import instanceFromRaw
         if isinstance(value, basestring):
             value = {
