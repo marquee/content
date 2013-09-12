@@ -32,14 +32,14 @@ def _get_field_type_for(name, value):
     if name.endswith('_content'):
         try:
             ContentReferenceField().set(value).validate()
-        except (ValueError, TypeError, KeyError):
+        except (ValueError, TypeError, KeyError, AttributeError):
             pass
         else:
             return ContentReferenceField
 
         try:
             ContainerContentField().set(value).validate()
-        except (ValueError, TypeError, KeyError):
+        except (ValueError, TypeError, KeyError, AttributeError):
             pass
         else:
             return ContainerContentField
