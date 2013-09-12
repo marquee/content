@@ -344,5 +344,8 @@ def typeClassFromID(object_id):
 def instanceFromRaw(object_raw):
     if isinstance(object_raw, _ContentObject):
         return object_raw
-    type_class = ALL_TYPES[object_raw['type']]
+    type_ = object_raw.get('type')
+    if not type_ and 'id' in object_raw:
+        type_ = object_raw.get('id').split(':')[0]
+    type_class = ALL_TYPES[type_]
     return type_class(object_raw)
