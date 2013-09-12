@@ -32,14 +32,14 @@ def _get_field_type_for(name, value):
     if name.endswith('_content'):
         try:
             ContentReferenceField().set(value).validate()
-        except ValueError:
+        except (ValueError, TypeError, KeyError):
             pass
         else:
             return ContentReferenceField
 
         try:
             ContainerContentField().set(value).validate()
-        except ValueError:
+        except (ValueError, TypeError, KeyError):
             pass
         else:
             return ContainerContentField
@@ -61,8 +61,6 @@ def _get_field_type_for(name, value):
     # Default to StringField for anything else - in case one of the values is
     # None, for example.
     return StringField 
-
-
 
 
 
@@ -346,8 +344,5 @@ def typeClassFromID(object_id):
 def instanceFromRaw(object_raw):
     if isinstance(object_raw, _ContentObject):
         return object_raw
-    try:
-        type_class = ALL_TYPES[object_raw['type']]
-    except KeyError:
-        return False
+    type_class = ALL_TYPES[object_raw['type']]
     return type_class(object_raw)
