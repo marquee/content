@@ -285,7 +285,7 @@ class Text(_ContentObject):
         markup = NOAT(self.content)
         for anno in self.annotations:
             a = copy.deepcopy(anno)
-            if 'url' in a:
+            if 'url' in a and a['url'] is not None:
                 a['href'] = a.pop('url').replace('"','&#34;').replace('\n',' ')
                 if len(a['href'].split('://')) > 1 and external_links:
                     a['target'] = '_blank'
