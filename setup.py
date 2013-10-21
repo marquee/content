@@ -5,7 +5,7 @@ setup(
         version             = 'dev',
         description         = '',
         long_description    = file('README.md').read(),
-        url                 = 'https://github.com/droptype/content',
+        url                 = 'https://github.com/marquee/content',
         author              = 'Alec Perkins',
         author_email        = 'alec@droptype.com',
         license             = 'UNLICENSE',
