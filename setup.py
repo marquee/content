@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
         name                = 'droptype-content',
-        version             = 'dev',
+        version             = '0.1.0-alpha',
         description         = '',
         long_description    = file('README.md').read(),
         url                 = 'https://github.com/marquee/content',
@@ -14,7 +14,7 @@ setup(
         keywords            = '',
         install_requires    = file('requirements.txt').read().splitlines(),
         classifiers         = [
-            'Development Status :: 2 - Pre-Alpha',
+            'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',
             'License :: Public Domain',
             'Programming Language :: Python :: 2',
