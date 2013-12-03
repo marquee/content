@@ -1,4 +1,3 @@
-
 DEFAULT_API_ROOT = 'marquee.by/content/'
 
 import requests, json
@@ -81,7 +80,6 @@ class ContentAPIWrapper(object):
         for k, v in constraints.items():
             key = "X-Content-Query-{0}".format(k.capitalize())
             headers[key] = v
-        print headers
         return headers
 
 from .models import ALL_TYPES, typeClassFromID, instanceFromRaw
@@ -125,8 +123,6 @@ class APIQuery(object):
 
     def execute(self):
         if self._result is None: 
-            print self._params
-            print self._constraints
             result = self._api.readList(self._params, constraints=self._constraints)
             self._result = map(lambda x: self._output_map(instanceFromRaw(x)), result)
         return self._result
