@@ -300,7 +300,7 @@ class Text(_ContentObject):
                     markup.add(tag_map[a_type], start, end, **a)
                 except IndexError as e:
                     pass
-        return unicode(markup)
+        return unicode(markup).replace('\n', '<br>')
 
 
 
