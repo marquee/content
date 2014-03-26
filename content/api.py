@@ -190,10 +190,10 @@ class ContentObjects(object):
     def save(self, *args):
         for arg in args:
             def _saveItem(item):
-                if self.id:
-                    self._api.updateInstance(self)
+                if item.id:
+                    self._api.updateInstance(item)
                 else:
-                    self._api.createInstance(self)
+                    self._api.createInstance(item)
             if hasattr(arg, 'id'):
                 _saveItem(arg)
             else:
