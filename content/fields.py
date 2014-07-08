@@ -414,6 +414,16 @@ class ContainerContentField(BaseField):
             …
         }
 
+    …or as a dict with lists:
+
+        {
+            'spam': '<type>:<uuid>',
+            'eggs': [
+                '<type>:<uuid>',
+                '<type>:<uuid>',
+            ]
+        }
+
     """
 
     @staticmethod
@@ -423,7 +433,10 @@ class ContainerContentField(BaseField):
             if hasattr(value, 'iteritems'):
                 parsed = {}
                 for k, v in value.iteritems():
-                    parsed[k] = ContentReferenceField.parse(v)
+                    if isinstance(v, list):
+                        parsed[k] = map(ContentReferenceField.parse, v)
+                    else:
+                        parsed[k] = ContentReferenceField.parse(v)
             elif hasattr(value, '__iter__'):
                 parsed = map(ContentReferenceField.parse, value)
             if parsed != None:
@@ -439,7 +452,11 @@ class ContainerContentField(BaseField):
             raise ValueError('%s must be a dict, list, or None, got %s (%s)'% (self.name, self._value, type(self._value)))
         if hasattr(self._value, 'values'):
             for v in self._value.values():
-                _validateContentID(self.name, v)
+                if isinstance(v, list):
+                    for value in v:
+                        _validateContentID(self.name, value)
+                else:
+                    _validateContentID(self.name, v)
         else:
             for v in self._value:
                 _validateContentID(self.name, v)
@@ -457,7 +474,10 @@ class ContainerContentField(BaseField):
             if hasattr(value, 'iteritems'):
                 result = {}
                 for k, v in value.iteritems():
-                    v_output = ContentReferenceField().set(v).toJSONSafe(as_obj=True, dereference=full)
+                    if isinstance(v, list):
+                        v_output = [ContentReferenceField().set(val).toJSONSafe(as_obj=True, dereference=full) for val in v]
+                    else:
+                        v_output = ContentReferenceField().set(v).toJSONSafe(as_obj=True, dereference=full)
                     if value:
                         result[k] = v_output
             else:
