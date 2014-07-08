@@ -332,8 +332,17 @@ class Container(_ContentObject):
 
 
 
+class Package(_ContentObject):
+    type = 'package'
+
+    fields = {
+            'content': ( ContainerContentField, dict(default=[]) ),
+        }
+
+
+
 ALL_TYPES = {}
-for model_class in (Container, Embed, Image, Text):
+for model_class in (Package, Container, Embed, Image, Text):
     ALL_TYPES[model_class.type] = model_class
 
 
