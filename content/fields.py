@@ -573,7 +573,7 @@ def _validateContentID(field_name, value):
 
         if ':' in value:
             val = value.split(':')
-        else '_' in value:
+        elif '_' in value:
             val = value.split('_')
         if len(val) != 2:
             raise ValueError("%s must be of format <type>:<uuid>, got: %s" % (field_name, value))
