@@ -166,7 +166,7 @@ class DateTimeField(BaseField):
             value = value.replace(tzinfo=pytz.utc)
         else:
             value = value.astimezone(pytz.utc)
-    
+
         return value
 
     def toJSONSafe(self, **kwargs):
@@ -339,7 +339,7 @@ class MD5Field(BaseField):
     def _type_validate(self):
         value = self._value
         is_valid = False
-        if len(value) == 32:            
+        if len(value) == 32:
             try:
                 int(value, 16)
             except ValueError:
@@ -498,10 +498,16 @@ class ContentReferenceField(BaseField):
             return None
         from .models import instanceFromRaw
         if isinstance(value, basestring):
-            value = {
-                'id': value,
-                'type': value.split(':')[0],
-            }
+            if ":" in value:
+                value = {
+                    'id': value,
+                    'type': value.split(':')[0],
+                }
+            elif "_" in value:
+                value = {
+                    'id': value,
+                    'type': value.split('_')[0],
+                }
         return instanceFromRaw(value)
 
     def _type_validate(self):
@@ -535,7 +541,7 @@ class ContentIDField(BaseField):
         return value
 
     def _type_validate(self):
-        value = self._value  
+        value = self._value
         return _validateContentID(self.name, self._value)
 
     def toJSONSafe(self, **kwargs):
@@ -565,7 +571,10 @@ def _validateContentID(field_name, value):
         if not isinstance(value, basestring):
             raise ValueError('%s must be a valid ContentID, or None, got: %s' % (field_name, value))
 
-        val = value.split(':')
+        if ':' in value:
+            val = value.split(':')
+        else '_' in value:
+            val = value.split('_')
         if len(val) != 2:
             raise ValueError("%s must be of format <type>:<uuid>, got: %s" % (field_name, value))
         type_val, uuid_val = val
