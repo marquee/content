@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
         name                = 'droptype-content',
-        version             = '0.1.1-alpha',
+        version             = '0.1.5',
         description         = '',
         long_description    = file('README.md').read(),
         url                 = 'https://github.com/marquee/content',

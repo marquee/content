@@ -278,9 +278,11 @@ class Text(_ContentObject):
 
     def toHTML(self, external_links=False):
         tag_map = {
-            'strong'    : 'strong',
-            'emphasis'  : 'em',
-            'link'      : 'a',
+            'strong'        : 'strong',
+            'emphasis'      : 'em',
+            'link'          : 'a',
+            'superscript'   : 'sup',
+            'subscript'     : 'sub',
         }
         markup = NOAT(self.content)
         for anno in self.annotations:
@@ -297,7 +299,7 @@ class Text(_ContentObject):
                 pass # Ignore annotations without any of those properties.
             else:
                 try:
-                    markup.add(tag_map[a_type], start, end, **a)
+                    markup.add(tag_map.get(a_type, 'span'), start, end, **a)
                 except IndexError as e:
                     pass
         return unicode(markup).replace('\n', '<br/>')
